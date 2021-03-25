@@ -49,6 +49,7 @@ public class CrimeListFragment extends Fragment {
 
     public CrimeHolder(LayoutInflater layoutInflater, ViewGroup parent) {
       super(layoutInflater.inflate(R.layout.list_item_crime, parent, false));
+      itemView.setOnClickListener(this);
       mTitleTv = itemView.findViewById(R.id.crime_title);
       mDateTv = itemView.findViewById(R.id.crime_date);
     }
