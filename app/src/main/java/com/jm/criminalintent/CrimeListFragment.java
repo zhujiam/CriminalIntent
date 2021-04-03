@@ -1,5 +1,6 @@
 package com.jm.criminalintent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +22,11 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
 
   private static final String TAG = "CrimeListFragment";
+  private static final int CRIME_DETAILS = 0;
   private static final boolean DBG = true;
   private RecyclerView mCrimeRecyclerView;
   private CrimeAdapter mCrimeAdapter;
+  private int mUpdateId;
 
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
@@ -35,11 +38,26 @@ public class CrimeListFragment extends Fragment {
     return view;
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    Log.d(TAG, "onResume: executed.");
+    updateUI();
+  }
+
   private void updateUI() {
+
     CrimeLab crimeLab = CrimeLab.getInstance(getActivity());
     List<Crime> crimes = crimeLab.getCrimes();
-    mCrimeAdapter = new CrimeAdapter(crimes);
-    mCrimeRecyclerView.setAdapter(mCrimeAdapter);
+    if (DBG) {
+      Log.d(TAG, "updateUI: mCrimeAdapter=null? " + (mCrimeAdapter == null) + ", mUpdateId=" + mUpdateId);
+    }
+    if (mCrimeAdapter == null) {
+      mCrimeAdapter = new CrimeAdapter(crimes);
+      mCrimeRecyclerView.setAdapter(mCrimeAdapter);
+    } else {
+      mCrimeAdapter.notifyItemChanged(mUpdateId);
+    }
   }
 
   private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -68,7 +86,17 @@ public class CrimeListFragment extends Fragment {
 
     @Override
     public void onClick(View v) {
-      Toast.makeText(getActivity(), mCrime.getTitle() + "clicked!", Toast.LENGTH_SHORT).show();
+      Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+      startActivityForResult(intent, CRIME_DETAILS);
+    }
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (DBG) Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
+    if (requestCode == CRIME_DETAILS) {
+      mUpdateId = resultCode;
     }
   }
 
