@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
@@ -75,13 +76,7 @@ public class CrimeFragment extends Fragment {
         mCrime.setSolved(isChecked);
       }
     });
-    returnResult();
     return v;
-  }
-
-  public void returnResult() {
-    getActivity().setResult(CrimeLab.getInstance(getActivity()).getCrimeIndexMap().get(mCrime.getId()), null);
-    Log.d(TAG, "returnResult: " + CrimeLab.getInstance(getActivity()).getCrimeIndexMap().get(mCrime.getId()));
   }
 
   @Override

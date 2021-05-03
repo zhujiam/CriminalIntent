@@ -56,7 +56,7 @@ public class CrimeListFragment extends Fragment {
       mCrimeAdapter = new CrimeAdapter(crimes);
       mCrimeRecyclerView.setAdapter(mCrimeAdapter);
     } else {
-      mCrimeAdapter.notifyItemChanged(mUpdateId);
+      mCrimeAdapter.notifyDataSetChanged();
     }
   }
 
@@ -86,7 +86,7 @@ public class CrimeListFragment extends Fragment {
 
     @Override
     public void onClick(View v) {
-      Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+      Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
       startActivityForResult(intent, CRIME_DETAILS);
     }
   }
