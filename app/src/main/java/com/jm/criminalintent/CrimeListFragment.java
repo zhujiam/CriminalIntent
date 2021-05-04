@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class CrimeListFragment extends Fragment {
 
@@ -79,7 +81,8 @@ public class CrimeListFragment extends Fragment {
     private void bind(Crime crime) {
       mCrime = crime;
       mTitleTv.setText(mCrime.getTitle());
-      mDateTv.setText(mCrime.getDate());
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, MM dd, yyyy", Locale.getDefault());
+      mDateTv.setText(simpleDateFormat.format(mCrime.getDate()));
       mSolvedImg.setVisibility(mCrime.isSolved() ? View.VISIBLE : View.GONE);
       if (DBG) Log.d(TAG, "CrimeHolder: getItemViewType()=" + getItemViewType());
     }

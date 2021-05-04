@@ -10,16 +10,14 @@ public class Crime {
 
   private UUID mId;
   private String mTitle;
-  private String mDate;
+  private Date mDate;
   private boolean mSolved;
   private boolean mRequiresPolice;
 
   public Crime() {
     mId = UUID.randomUUID();
-    Date date = new Date();
-    //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH);
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, MM dd, yyyy", Locale.ENGLISH);
-    mDate = simpleDateFormat.format(date);
+    mDate = new Date();
+    mDate.setTime(mDate.getTime() - 100000000);
   }
 
   public UUID getId() {
@@ -34,11 +32,11 @@ public class Crime {
     mTitle = title;
   }
 
-  public String getDate() {
+  public Date getDate() {
     return mDate;
   }
 
-  public void setDate(String date) {
+  public void setDate(Date date) {
     mDate = date;
   }
 
